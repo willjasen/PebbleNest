@@ -4,3 +4,5 @@ tools
 include
 lib
 wscript
+build
+pebble_app.ld
