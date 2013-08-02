@@ -1,0 +1,8 @@
+argv = ['./waf', 'configure']
+environ = {'TERM_SESSION_ID': '35B35C91-EB44-4483-A0C9-859870BDC901', 'SSH_AUTH_SOCK': '/tmp/launch-s9s5rA/Listeners', 'VERSIONER_PYTHON_PREFER_32_BIT': 'no', 'TERM_PROGRAM_VERSION': '309', 'SHELL': '/bin/bash', 'LOGNAME': 'Haifisch', 'USER': 'Haifisch', 'HOME': '/Users/Haifisch', 'PATH': '/Users/Haifisch/pebble-dev/arm-cs-tools/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin', 'THEOS': '/opt/theos', 'TMPDIR': '/var/folders/jr/46ms2p1d1db8xsc46nz5k34r0000gn/T/', 'TERM_PROGRAM': 'Apple_Terminal', 'LANG': 'en_US.UTF-8', 'TERM': 'xterm-256color', 'Apple_PubSub_Socket_Render': '/tmp/launch-P0LXbJ/Render', 'VERSIONER_PYTHON_VERSION': '2.7', 'SHLVL': '1', 'OLDPWD': '/Users/Haifisch', '__CF_USER_TEXT_ENCODING': '0x1F5:0:0', 'Apple_Ubiquity_Message': '/tmp/launch-2kjSWD/Apple_Ubiquity_Message', 'PWD': '/Users/Haifisch/desktop/PebbleNest', '_': './waf', 'COMMAND_MODE': 'unix2003'}
+files = ['/Users/Haifisch/Desktop/PebbleNest/wscript']
+hash = -2761727651458379904
+options = {'files': '', 'jobs': 2, 'verbose': 0, 'nocache': False, 'progress_bar': 0, 'timestamp': None, 'distcheck_args': None, 'top': '', 'destdir': '', 'keep': 0, 'zones': '', 'debug': False, 'prefix': '/usr/local/', 'download': False, 'force': False, 'targets': '', 'out': ''}
+out_dir = '/Users/Haifisch/Desktop/PebbleNest/build'
+run_dir = '/Users/Haifisch/Desktop/PebbleNest'
+top_dir = '/Users/Haifisch/Desktop/PebbleNest'
