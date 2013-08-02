@@ -1,0 +1,7 @@
+./include
+./lib
+./build
+./tools
+./waf
+./wsript
+./*.ld
