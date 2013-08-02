@@ -6,3 +6,4 @@ lib
 wscript
 build
 pebble_app.ld
+.lock-waf_darwin_build
