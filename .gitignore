@@ -7,3 +7,6 @@ wscript
 build
 pebble_app.ld
 .lock-waf_darwin_build
+resources/wscript
+
+resources/.DS_Store
