@@ -7,14 +7,13 @@
 // 42c86ea4-1c3e-4a07-b889-2cccca914198
 #define MY_UUID {0x42, 0xc8, 0x6e, 0xa4, 0x1c, 0x3e, 0x4a, 0x7, 0xb8, 0x89, 0x2c, 0xcc, 0xca, 0x91, 0x41, 0x98}
 PBL_APP_INFO(MY_UUID, "My House", "Haifisch LLP", 0x1, 0x0, DEFAULT_MENU_ICON, APP_INFO_STANDARD_APP);
-#define current_state_key 1
+
 static Window window;
 static TextLayer temperature_layer;
 static TextLayer house_layer;
 static TextLayer mode_layer;
 static TextLayer toTemp_layer;
 static TextLayer toTime_layer;
-
 
 AppSync sync;
 uint8_t sync_buffer[420];
@@ -25,6 +24,27 @@ enum {
     HOUSE_TEMPTO_KEY = 0x3,
     HOUSE_TIMETO_KEY = 0x4,
 };
+
+void select_single_click_handler(ClickRecognizerRef recognizer, Window *window) {
+    //  ... called on single click or when held down ...
+    const struct Tuplet data = TupletInteger(1,(uint8_t)2);
+    int count = 1;
+    app_sync_set(&sync,&data,count);
+}
+
+void config_provider(ClickConfig **config, Window *window) {
+    // See ui/click.h for more information and default values.
+    
+    // single click / repeat-on-hold config:
+    config[BUTTON_ID_UP]->click.handler = (ClickHandler) select_single_click_handler;
+    config[BUTTON_ID_UP]->click.repeat_interval_ms = 1000; // "hold-to-repeat" gets overridden if there's a long click handler configured!
+    
+    //config[BUTTON_ID_DOWN]->click.handler = (ClickHandler) select_single_click_handler;
+    //config[BUTTON_ID_DOWN]->click.repeat_interval_ms = 1000; // "hold-to-repeat" gets overridden if there's a long click handler configured!
+    
+    // (void)window;
+}
+
 // TODO: Error handling
  void sync_error_callback(DictionaryResult dict_error, AppMessageResult app_message_error, void *context) {
 }
@@ -36,7 +56,7 @@ enum {
             // App Sync keeps the new_tuple around, so we may use it directly
             text_layer_set_text(&temperature_layer, new_tuple->value->cstring);
             break;
-        /*case HOUSE_HUMIDITY_KEY:
+        case HOUSE_HUMIDITY_KEY:
             text_layer_set_text(&house_layer, new_tuple->value->cstring);
             break;
         case HOUSE_MODE_KEY:
@@ -47,7 +67,7 @@ enum {
             break;
         case HOUSE_TIMETO_KEY:
             text_layer_set_text(&toTime_layer, new_tuple->value->cstring);
-            break;*/
+            break;
         default:
             return;
     }
@@ -60,13 +80,13 @@ enum {
 
    // window_set_fullscreen(window, true);
     // temp
-    text_layer_init(&temperature_layer, GRect(1, 30, 140, 140));
+    text_layer_init(&temperature_layer, GRect(1, 10, 140, 38));
     text_layer_set_text_color(&temperature_layer, GColorWhite);
     text_layer_set_background_color(&temperature_layer, GColorClear);
-    text_layer_set_font(&temperature_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+    text_layer_set_font(&temperature_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
     text_layer_set_text_alignment(&temperature_layer, GTextAlignmentCenter);
     layer_add_child(&window.layer, &temperature_layer.layer);
-   /*// humidity
+    // humidity
     text_layer_init(&house_layer, GRect(0, 40, 144, 48));
     text_layer_set_text_color(&house_layer, GColorWhite);
     text_layer_set_background_color(&house_layer, GColorClear);
@@ -93,15 +113,18 @@ enum {
     text_layer_set_background_color(&toTime_layer, GColorClear);
     text_layer_set_font(&toTime_layer, fonts_get_system_font(FONT_KEY_GOTHIC_18));
     text_layer_set_text_alignment(&toTime_layer, GTextAlignmentCenter);
-    layer_add_child(&window.layer, &toTime_layer.layer);*/
+    layer_add_child(&window.layer, &toTime_layer.layer);
 
     Tuplet initial_values[] = {
         TupletCString(WEATHER_TEMPERATURE_KEY, "Gathering Data"),
-       /* TupletCString(HOUSE_HUMIDITY_KEY, "..."),
+        TupletCString(HOUSE_HUMIDITY_KEY, "..."),
         TupletCString(HOUSE_MODE_KEY, ""),
         TupletCString(HOUSE_TEMPTO_KEY, ""),
-        TupletCString(HOUSE_TIMETO_KEY, ""),*/
+        TupletCString(HOUSE_TIMETO_KEY, ""),
     };
+     
+    window_set_click_config_provider(&window, (ClickConfigProvider) config_provider);
+     
     app_sync_init(&sync, sync_buffer, sizeof(sync_buffer), initial_values, ARRAY_LENGTH(initial_values),
                   sync_tuple_changed_callback, sync_error_callback, NULL);
 }
@@ -116,7 +139,7 @@ void pbl_main(void *params) {
         .deinit_handler = &weather_app_deinit,
         .messaging_info = {
             .buffer_sizes = {
-                .inbound = 800,
+                .inbound = 2048,
                 .outbound = 16,
             }
         }
